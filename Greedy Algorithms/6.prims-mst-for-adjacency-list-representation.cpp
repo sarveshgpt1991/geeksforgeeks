@@ -1,18 +1,4 @@
-//http://www.geeksforgeeks.org/greedy-algorithms-set-5-prims-mst-for-adjacency-list-representation/
+// http://www.geeksforgeeks.org/greedy-algorithms-set-5-prims-mst-for-adjacency-list-representation/
+// Order O(ElogV)
 
-#include <iostream>
-#include <climits>
-#include <cstdio>
-//#include <cmath>
-//#include <vector>
-//#include <string>
-using namespace std;
-
-void func(){
-	
-}
-
-int main(){
-
-	return 0;
-}
+// In graph
