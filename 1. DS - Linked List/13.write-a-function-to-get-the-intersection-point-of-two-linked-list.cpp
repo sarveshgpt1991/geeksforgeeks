@@ -17,14 +17,14 @@ int getIntesectionNode(node *head1, node *head2) {
 	}
 	if(c>0){
 		ptr = head1;
-		while(c>0){
+		while(c>=0){
 			ptr = ptr->next;
 			c--;
 		}
 	}
 	else {
 		ptr = head2;
-		while(c<0){
+		while(c<=0){
 			ptr = ptr->next;
 			c++;
 		}
@@ -71,6 +71,6 @@ int main()
   printList(head1);
   printList(head2);
  
-  printf("\n The node of intersection is %d \n", getIntesectionNode(head1, head2));
+  printf("\n The node of intersection is %d \n", getIntesectionNode(head2, head1));
 }
   

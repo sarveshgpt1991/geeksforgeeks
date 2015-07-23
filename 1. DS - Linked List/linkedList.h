@@ -85,3 +85,53 @@ bool searchRec(node *head, int x){
 			return -1;
 	searchRec(head->next, x);
 }
+
+// Merge Sort
+void divide(node *head, node **a, node **b){
+	if(head == NULL)
+		return;
+	*a = head;
+	node *prev = NULL;
+	node *slow = head;
+	node *fast = head;
+	while(fast && fast->next){
+		prev = slow;
+		slow = slow->next;
+		fast = fast->next->next;
+	}
+	prev->next = NULL;
+	*b = slow;
+}
+
+node* merge(node *a, node *b){
+	if(a && b) {
+		node *tmp, *t;
+		if(a->data < b->data){
+			tmp = a;
+			t = merge(a->next, b);
+		}
+		else {
+			tmp = b;
+			t = merge(a, b->next);
+		}
+		tmp->next = t;
+		return tmp;
+	}
+	else if(a) {
+		return a;
+	}
+	else
+		return b;
+}
+
+void mergeSort(node **head){
+	if(*head == NULL || (*head)->next == NULL)
+		return;
+	node *a, *b;
+	node *h = *head;
+	divide(h, &a, &b);
+	mergeSort(&a);
+	mergeSort(&b);
+	*head = merge(a, b);
+}
+
