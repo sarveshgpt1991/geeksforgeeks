@@ -23,3 +23,10 @@ int binarySearch(int *a, int start, int end, int x){
 		 return binarySearch(a, start, mid-1, x);
     return binarySearch(a, mid+1, end, x);
 }
+
+void reverse(int *a, int start, int end){
+	if(start >= end)
+		return;
+	swap(&a[start], &a[end]);
+	reverse(a, start+1, end-1);
+}
