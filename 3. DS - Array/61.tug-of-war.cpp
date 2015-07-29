@@ -1,4 +1,5 @@
 // http://www.geeksforgeeks.org/tug-of-war/
+/******/
 
 #include <iostream>
 #include <cstring>
@@ -24,25 +25,42 @@ int check(int *a, int n, bool *taken){
 }
 
 void tugOfWarUtil(int *a, int n, bool *taken, int curr_idx, int &countTaken, int &mini, bool *res){
-	if(curr_idx >= n || countTaken > (n+1)/2)
+	cout<<"!"<<countTaken<<'\n';
+	printBool(taken, n);
+	int countNotTaken = curr_idx - countTaken;
+	if(curr_idx >= n || countTaken > (n+1)/2 || countNotTaken > (n+1)/2)
 		return;
 	if(countTaken == (n+1)/2){
 		cout<<"@";
 		int tmp = check(a, n, taken);
 		printBool(res, n);
 		printBool(taken, n);
-		cout<<tmp;
+		cout<<"%"<<countTaken<<'\n';
 		if(mini > tmp){
 			mini = tmp;
 			for(int i=0; i<n; i++)
 				res[i] = taken[i];
 		}
 	}
-	else
-	for(int i=0; i<2; i++){
-		taken[curr_idx] = i;
-		countTaken += i;
+	else if(countNotTaken == (n+1)/2){
+		cout<<"#";
+		for(int i=curr_idx; i<n; i++){
+			taken[i] = true;
+		}
+		int tmp = check(a, n, taken);
+		if(mini > tmp){
+			mini = tmp;
+			for(int i=0; i<n; i++)
+				res[i] = taken[i];
+		}
+	}
+	else{
+		taken[curr_idx] = 0;
 		tugOfWarUtil(a, n, taken, curr_idx+1, countTaken, mini, res);
+		taken[curr_idx] = 1;
+		countTaken++;
+		tugOfWarUtil(a, n, taken, curr_idx+1, countTaken, mini, res);
+		countTaken--;
 	}
 }
 
@@ -58,9 +76,8 @@ void tugOfWar(int *a, int n){
 }
 
 int main(){
-	int arr[] = {23, -34, 12, 0, -1, 4};
+	int arr[] = {3, -3, 5, 0, -1, 4};
     int n = sizeof(arr)/sizeof(arr[0]);
     tugOfWar(arr, n);
 	return 0;
 }
-
