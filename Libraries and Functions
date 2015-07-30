@@ -247,4 +247,25 @@ my.count()
 Algorithm
 ---------
 1. Sort vector array
-sort(vec.begin(), vec.end())
+sort(vec.begin(), vec.end(), compare)
+
+2. Make heap
+make_heap(vec.begin(), vec.end(), compare)
+
+3. Push heap
+vec.push_back(INT)
+push_heap(vec.begin(), vec.end())
+
+4. Pop heap
+pop_heap(vec.begin(), vec.end())
+vec.pop_back();
+
+5. Fill array/vector
+fill(array, array+n, INT);
+
+6. Find Upper bound
+upper_bound(vec.begin(), vec.end(), INT)	// Return pointer
+
+7. Find Lower bound
+lower_bound(vec.begin(), vec.end(), INT)
+
