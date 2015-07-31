@@ -38,6 +38,9 @@ strlen(s);
 memset(int *ptr, value, sizeof(ptr))
 	ex. memset(myarr, 0, sizeof(myarr))
 
+3. initialize with character
+string str(LEN, CHAR);
+
 sstream
 -------
 1. split string
@@ -269,3 +272,22 @@ upper_bound(vec.begin(), vec.end(), INT)	// Return pointer
 7. Find Lower bound
 lower_bound(vec.begin(), vec.end(), INT)
 
+Climits
+-------
+1. int range/ long int range
+	-2147483648 to 2147483647
+	INT_MAX = (1<<31)-1	~ 2*10^9
+	INT_MIN = (1<<31) 	~ -2*10^9
+2. short int range
+	-32768 to 32767
+	SHRT_MAX = (1<<15)-1 = 32767	~ 3*10^4
+	SHRT_MIN = -(1<<15)	= -32768 ~ -3*10^4
+3. unsigned int range
+	0 to 4294967295
+4. unsigned int / unsigned long int
+	0 to 4,294,967,295
+4. unsigned short int range
+	0 to 65,535
+5. long long int
+	LLONG_MAX = ~ 9*10^18
+	LLONG_MIN = ~ -9*10^18
