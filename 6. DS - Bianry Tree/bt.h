@@ -1,5 +1,3 @@
-// Header for Binary Tree
-
 #include <iostream>
 using namespace std;
 
@@ -34,7 +32,7 @@ void printInorder(node *root){
 	if(root == NULL)
 		return;
 	printInorder(root->left);
-	cout<<root->data;
+	cout<<root->data<<" ";
 	printInorder(root->right);
 }
 
