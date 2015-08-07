@@ -1,4 +1,5 @@
 #include <iostream>
+#include <queue>
 using namespace std;
 
 struct node {
@@ -42,6 +43,21 @@ void printPostorder(node *root){
 	printPostorder(root->left);
 	printPostorder(root->right);
 	cout<<root->data;
+}
+
+void printLevelorder(node *root){
+	if(root == NULL)
+		return;
+	queue<node*> q;
+	q.push(root);
+	while(!q.empty()){
+		node *tmp = q.front();  q.pop();
+		cout<<tmp->data<<" ";
+		if(tmp->left)
+			q.push(tmp->left);
+		if(tmp->right)
+			q.push(tmp->right);
+	}
 }
 
 int maxDepth(node *root){
