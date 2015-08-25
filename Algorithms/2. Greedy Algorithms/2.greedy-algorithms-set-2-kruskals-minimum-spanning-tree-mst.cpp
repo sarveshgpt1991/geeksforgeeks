@@ -37,7 +37,7 @@ int find(Subset subset[], int i){
 void _union(Subset subset[], int x, int y){
 	int xset = find(subset, x);
 	int yset = find(subset, y);
-	
+
 	if(subset[xset].rank < subset[yset].rank)
 		subset[xset].parent = yset;
 	else if(subset[yset].rank < subset[xset].rank)
@@ -57,7 +57,7 @@ int myComp(const void* a, const void* b){
 
 void KruskalMST(Graph *graph) {
 	int V = graph->V;
-	Edge res[graph->E]; 
+	Edge res[graph->E];
 	qsort(graph->edge, (graph->E), sizeof(graph->edge[0]), myComp);
 	int e = 0;
 	Subset subset[V];
@@ -81,22 +81,22 @@ void KruskalMST(Graph *graph) {
 
 int main(){
 	Graph *graph = createGraph(4, 5);
-	
+
     // add edge 0-1
     graph->edge[0].src = 0;
     graph->edge[0].dest = 1;
     graph->edge[0].weight = 10;
- 
+
     // add edge 0-2
     graph->edge[1].src = 0;
     graph->edge[1].dest = 2;
     graph->edge[1].weight = 6;
- 
+
     // add edge 0-3
     graph->edge[2].src = 0;
     graph->edge[2].dest = 3;
     graph->edge[2].weight = 5;
- 
+
  	// add edge 2-3
     graph->edge[4].src = 2;
     graph->edge[4].dest = 3;
@@ -106,9 +106,7 @@ int main(){
     graph->edge[3].src = 1;
     graph->edge[3].dest = 3;
     graph->edge[3].weight = 15;
- 
-    
- 
+
     KruskalMST(graph);
 	return 0;
 }
