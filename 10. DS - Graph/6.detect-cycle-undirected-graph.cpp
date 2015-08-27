@@ -19,6 +19,7 @@ Graph *newGraph(int v){
 
 void addEdge(Graph *g, int src, int dest){
 	g->adj[src].push_back(dest);
+	g->adj[dest].push_back(src);
 }
 
 bool isCyclicUtil(Graph *g, bool *visit, int src, int parent){
