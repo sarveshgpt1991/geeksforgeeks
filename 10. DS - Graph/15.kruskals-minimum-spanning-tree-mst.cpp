@@ -8,17 +8,76 @@ typedef stack<int> SI;
 typedef queue<int> QI;
 typedef list<int> LI;
 
-struct edge {
+struct Edge {
 	int src, dest, weight;
 };
 
-struct Graph {
-	int V;
-	int
+bool compare(Edge a, Edge b){
+	return a.weight < b.weight;
+}
+
+struct subset {
+    int parent;
+    int rank;
 };
 
-void function(){
+struct Graph {
+	int V, E;
+	Edge *edge;
+};
 
+Graph *createGraph(int V, int E){
+	Graph *g = new Graph;
+	g->V = V;
+	g->E = E;
+	g->edge = new Edge[E];
+	return g;
+}
+
+int find(subset *sub, int i){
+	if(sub[i].parent != i)
+		sub[i].parent = find(sub, sub[i].parent);
+	return sub[i].parent;
+}
+
+void Union(subset *sub, int x, int y){
+	int X = find(sub, x);
+	int Y = find(sub, y);
+	
+	if(sub[X].rank < sub[Y].rank){
+		sub[X].parent = Y;
+	}
+	else if(sub[X].rank > sub[Y].rank)
+		sub[Y].parent = X;
+ 	else{
+ 		sub[Y].parent = X;
+ 		sub[X].rank++;
+ 	}
+}
+
+void KruskalMST(Graph *g){
+	int v = g->V;
+	Edge res[v];
+	int e=0, i=0;
+	sort(g->edge, g->edge+g->E, compare);
+	subset sub[v];
+	for(int i=0; i<v; i++){
+		sub[i].parent = i;
+		sub[i].rank = 0;
+	}
+	
+	while(e < v-1){
+		Edge next = g->edge[i++];
+		int x = find(sub, next.src);
+		int y = find(sub, next.dest);
+		if(x != y){
+			res[e++] = next;
+			Union(sub, x, y);
+		}
+	}
+	for(int i=0; i<e; i++){
+		printf("%d -- %d == %d\n", res[i].src, res[i].dest, res[i].weight);
+	}
 }
 
 int main(){
