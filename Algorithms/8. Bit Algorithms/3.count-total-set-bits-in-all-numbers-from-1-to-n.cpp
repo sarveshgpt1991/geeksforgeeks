@@ -1,7 +1,7 @@
 // http://www.geeksforgeeks.org/count-total-set-bits-in-all-numbers-from-1-to-n/
 
-#include <iostream>
-#include <cmath>
+#include <bits/stdc++.h>
+#include "bit.h"
 using namespace std;
 
 unsigned int countSetBitUtil(int n){
@@ -38,11 +38,26 @@ unsigned int countSetB(int n){
     return res + remain + countSetB(remain);
 }
 
-int main() {
-    int n = 4;
-//    printf ("Total set bit count is %d", countSetBits(n));
-    printf ("Total set bit count is %d", countSetB(17));
-	return 0;
+unsigned int countSetB_DP(int n){
+	vector<int> cache(n+1);
+//	int cache[n+1];
+	cache[0] = 0;
+	cache[1] = 1;
+	int pow = 1;
+	int sum = 1;
+	for(int i=2; i<=n; i++){
+		if(i >= pow*2)
+			pow *= 2;
+		cache[i] = 1 + cache[i-pow];
+		sum += cache[i];
+	}
+	return sum;
 }
 
-
+int main() {
+    int n = 100000000;
+    printf ("Total set bit count is %d", countSetB(n));
+    cout<<'\n';
+	printf ("Total set bit count is %d", countSetB_DP(n));
+	return 0;
+}
