@@ -1,50 +1,34 @@
 // http://www.geeksforgeeks.org/maximum-product-subarray/
 
 #include <iostream>
-#include <algorithm>
-#include "array.h"
+#include <cstdio>
+using namespace std;
 
-int maxSubProduct(int *a, int start, int end){
-	int productHere=1, maxProduct = 0, after=1;
-	
-	for(int i=start; i<=end; i++){
-		if(a[i] < 0){
-			maxProduct = max(maxProduct, after);
-			after = 1;
-		}
-		else {
-			after *= a[i];
-		}
-		productHere *= a[i];
-		maxProduct = max(maxProduct, productHere);
-	}
-	maxProduct = max(maxProduct, after);
-	return maxProduct;
-}
-
-int maxSubarrayProduct(int *a, int n){
-	int start = -1;
-	int m = -1;
-	int i=0;
-	while(a[i]==0){
-		start = i;
-		i++;
-	}
-	start++;
-	for(; i<n; i++){
-		if(a[i]==0){
-			m = max(m, maxSubProduct(a, start, i-1));
-			start = i+1;
-		}
-	}
-	//cout<<"@"<<start<<" "<<i<<" "<<maxSubProduct(a, start, i-1);
-	m = max(m, maxSubProduct(a, start, i-1));
-	return m;
+int maxSubarrayProduct(int *arr, int n){
+    int min_prod=1, max_ending=1, max_so_far = 1;
+    for(int i=0; i<n; i++){
+        if(arr[i] > 0){
+            max_ending = max_ending*arr[i];
+            min_prod = min(min_prod*arr[i], 1);
+        }
+        else if(arr[i] == 0){
+            max_ending = 1;
+            min_prod = 1;
+        }
+        else {
+            int tmp = max_ending;
+            max_ending = max(min_prod*arr[i], 1);
+            min_prod = tmp*arr[i];
+        }
+        if(max_so_far < max_ending)
+            max_so_far = max_ending;
+    }
+    return max_so_far;
 }
 
 int main(){
-    int arr[] = {-2, -3, 0, -2, -40};
+	int arr[] = {1, -2, -3, 0, 7, -8, -2};
     int n = sizeof(arr)/sizeof(arr[0]);
     printf("Maximum Sub array product is %d", maxSubarrayProduct(arr, n));
-    return 0;
+    getchar();
 }
