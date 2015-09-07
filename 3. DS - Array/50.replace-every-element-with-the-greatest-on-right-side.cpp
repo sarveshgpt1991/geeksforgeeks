@@ -1,7 +1,8 @@
 // http://www.geeksforgeeks.org/replace-every-element-with-the-greatest-on-right-side/
 
-#include <iostream>
+#include <bits/stdc++.h>
 #include "array.h"
+using namespace std;
 
 void nextGreatest(int *a, int n){
 	int m = -1;
