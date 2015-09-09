@@ -32,6 +32,31 @@ int getPivot(int *a, int start, int end){
 	}
 }
 
+int getPivotIter(int *a, int start, int end){
+	while(start <= end){
+		if(start == end){
+			return start;
+		}
+		if(end-start == 1){
+			if(a[start] < a[end])
+				return start;
+			return end;
+		}
+		int mid = start + (end-start)/2;
+		if(a[mid] > a[mid-1] && a[mid] > a[mid+1])
+			return mid;
+		if(a[start] < a[mid] && a[start] < a[end])
+			return -1;
+		if(a[start] < a[mid]){
+			start = mid+1;
+		}
+		else{
+			end = mid-1;
+		}
+	}
+	return -1;
+}
+
 int pivotedBinarySearch(int *a, int n, int x){
 	int piv = getPivot(a, 0, n-1);
 	cout<<piv<<'\n';
