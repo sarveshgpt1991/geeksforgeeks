@@ -34,6 +34,19 @@ void recurse(node **head){
 	*head = rest;
 }
 
+node *reverse1(node *head, node *prev){
+	if(head == NULL)
+		return NULL;
+	if(head->next == NULL){
+		head->next = prev;
+		return head;
+	}
+	node *nextHead = head->next;
+	node *nextPrev = head;
+	head->next = prev;
+	return reverse(nextHead, nextPrev);
+}
+
 int main() {
     /* Start with the empty list */
     struct node* head = NULL;

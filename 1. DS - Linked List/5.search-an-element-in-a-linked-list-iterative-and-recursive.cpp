@@ -4,8 +4,10 @@
 
 bool search(node *head, int x){
 	if(head == NULL)
-			return -1;
-	search(head->next, x);
+		return 0;
+    if(head->data == x)
+        return true;
+	return search(head->next, x);
 }
 
 int main(){

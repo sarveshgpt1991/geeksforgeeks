@@ -9,6 +9,7 @@ void swap(int *a, int *b){
 	*b = tmp;
 }
 
+// Data swap 
 void pairWiseSwap(node *head){
 	if(head == NULL || head->next == NULL)
 		return;
@@ -16,6 +17,37 @@ void pairWiseSwap(node *head){
 	node *ptr = head->next;
 	swap(&prev->data, &ptr->data);
 	pairWiseSwap(head->next->next);
+}
+
+// node swap
+void pairWiseSwap1(node *&head){
+  if(head == NULL || head->next == NULL)
+    return;
+  node *prev = NULL;
+  node *curr = head;
+  node *next = head->next;
+  node *H = head->next;
+  bool flag = true;
+  while(next->next){
+    prev = curr;
+    curr = next;
+    next = next->next;
+    if(flag){
+      curr->next = prev;
+      if(next->next)
+        prev->next = next->next;
+      else
+        prev->next = next;
+      flag  = false;
+      continue;
+    }
+    flag = true;
+  }
+  if(flag){
+    next->next = curr;
+    curr->next = NULL;
+  }
+  head = H;
 }
 
 int main(){
