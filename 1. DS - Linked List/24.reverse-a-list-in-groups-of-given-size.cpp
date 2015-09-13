@@ -3,48 +3,60 @@
 #include <iostream>
 #include "linkedList.h"
 
-void reverse(node **head, int start, int end){
-	if(*head == NULL)
-		return;
-	// includes head
-	if(start == 1) {
-		node *prev = *head;
-		node *current = (*head)->next;
-		node *ptr = (*head)->next->next;
-		while(end>1){
-			current->next = prev;
-			prev = current;
-			current = ptr;
-			ptr = ptr->next;
-			end--;
-		}
-		(*head)->next = current;
-		*head = prev;
+node *reverse(node *head){
+	if(head==NULL || head->next == NULL)
+		return head;
+	node *ptr = head->next;
+	node *prev = head;
+	head->next = NULL;
+	while(ptr){
+		node *tmp = ptr->next;
+		ptr->next = prev;
+		prev = ptr;
+		ptr = tmp;
 	}
-	if(start>2)
-		reverse(head, start-1, end-1);
+	return prev;
+}
 
-	//next to head
-	else {
-		node *nextHead = (*head)->next;
-		node *prev = nextHead;
-		node *current = nextHead->next;
-		node *ptr = nextHead->next->next;
-		while(end>2){
-			current->next = prev;
-			prev = current;
-			current = ptr;
+node *reverseK(node *head, int k){
+	if(head == NULL || head->next == NULL)
+		return head;
+	node *ptr = head->next;
+	int i=2;
+	node *prev = head;
+	node *H = NULL;
+	node *tail = NULL;
+	while(ptr){
+		while(ptr && i<k){
 			ptr = ptr->next;
-			end--;
+			i++;
 		}
-		(*head)->next = prev;
-		nextHead->next = current;
+		i=1;
+		node *tmp = NULL;
+		if(ptr){
+			tmp = ptr->next;
+			ptr->next = NULL;
+		}
+		ptr = tmp;
+		node *rev = reverse(prev);
+		prev = ptr;
+		if(H == NULL){
+			H = rev;
+		}
+		else {
+			tail->next = rev;
+		}
+		while(rev->next)
+			rev = rev->next;
+		tail = rev;
 	}
+	tail->next = prev;
+	return H;
 }
 
 int main(){
 	node* head = NULL;
-  
+
      /* Created Linked list is 1->2->3->4->5->6->7->8 */
      push(&head, 8);
      push(&head, 7);
@@ -53,14 +65,13 @@ int main(){
      push(&head, 4);
      push(&head, 3);
      push(&head, 2);
-     push(&head, 1);           
- 
+     push(&head, 1);
+
      printf("\n Given linked list \n");
      printList(head);
-     reverse(&head, 2, 4);
- 
+     head = reverseK(head, 3);
+
      printf("\n Reversed Linked list \n");
      printList(head);
 	return 0;
 }
-
