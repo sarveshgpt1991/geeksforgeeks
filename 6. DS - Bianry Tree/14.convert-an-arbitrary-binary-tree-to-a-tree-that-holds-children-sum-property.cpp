@@ -3,28 +3,35 @@
 #include <iostream>
 #include "bt.h"
 
+void increment(node *root, int diff){
+    int sum = 0;
+    if(root->left){
+        root->left->data += diff;
+        increment(root->left, diff);
+    }
+    else if(root->right) {
+        root->right->data += diff;
+        increment(root->right, diff);
+    }
+}
+
 void convertTree(node *root){
-	if(root == NULL || (!root->left && !root->right))
-		return;
-	convertTree(root->left);
-	convertTree(root->right);
-	int sum = 0;
-	if(root->left)
-		sum += root->left->data;
-	if(root->right)
-		sum += root->right->data;
-	if(sum > root->data)
-		root->data = sum;
-	else {
-		if(root->left){
-			root->left->data += root->data - sum;
-			convertTree(root->left);
-		}
-		else {
-			root->right->data += root->data - sum;
-			convertTree(root->right);
-		}
-	}
+    if(root == NULL || (root->left == NULL && root->right == NULL))
+        return;
+    funct(root->right);
+    funct(root->left);
+    int sum = 0;
+    if(root->right)
+        sum += root->right->data;
+    if(root->left)
+        sum += root->left->data;
+    int diff = sum-root->data;
+    if(diff > 0){
+        root->data += diff;
+    }
+    else if(diff < 0){
+        increment(root, -diff);
+    }
 }
 
 int main(){
