@@ -15,21 +15,14 @@ node *newNode(int data){
 	return n;
 }
 
-void populateNext(node *root){
+// (root, NULL) -> main
+node *funct(node *root, node *tail){
+	if(root == NULL && tail)
+		return tail;
 	if(root == NULL)
-		return;
-	populateNext(root->left);
-	populateNext(root->right);
-	node *ptr = root->left;
-	while(ptr && ptr->right)
-		ptr = ptr->right;
-	if(ptr)
-		ptr->next = root;
-
-	ptr = root->right;
-	while(ptr && ptr->left)
-		ptr = ptr->left;
-	root->next = ptr;
+		return NULL;
+	root->next = funct(root->right, tail);
+	return funct(root->left, root);
 }
 
 int main(){
@@ -47,15 +40,14 @@ int main(){
     root->left->left  = newNode(3);
 
     // Populates nextRight pointer in all nodes
-    populateNext(root);
+    node *head = populateNext(root);
 
     // Let us see the populated values
-    struct node *ptr = root->left->left;
-    while(ptr)
+    while(head)
     {
         // -1 is printed if there is no successor
-        printf("Next of %d is %d \n", ptr->data, ptr->next? ptr->next->data: -1);
-        ptr = ptr->next;
+        printf("Next of %d is %d \n", head->data, head->next? head->next->data: -1);
+        head = head->next;
     }
 
 	return 0;
