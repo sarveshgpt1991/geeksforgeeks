@@ -4,6 +4,7 @@
 #include <cmath>
 #include "bt.h"
 
+//O(n)
 bool isBalanced(node *root){
 	if(root == NULL)
 		return true;
@@ -13,6 +14,18 @@ bool isBalanced(node *root){
 		return isBalanced(root->left) && isBalanced(root->right);
 	else
 		return false;
+}
+
+bool isBal(node *root, int &height){
+	if(root == NULL)
+		return 1;
+	int hr=0, hl=0;
+	bool dl = funct(root->left, hl);
+	bool dr = funct(root->right, hr);
+	height = 1 + max(hl, hr);
+	if(abs(hl-hr) > 1)
+		return 0;
+	return dl&&dr;
 }
 
 int main(){
