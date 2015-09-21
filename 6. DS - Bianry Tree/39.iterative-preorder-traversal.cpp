@@ -22,6 +22,25 @@ void iterativePreorder(node *root){
  	}
 }
 
+//Just pushing right nodes to stack
+void iterativePreorder1(node *root){
+	if(root == NULL)
+		return;
+	stack<node*> s;
+	while(root){
+		while(root){
+			if(root->right){
+				s.push(root->right);
+			}
+			cout<<root->data<<" ";
+			root = root->left;
+		}
+		if(!s.empty()){
+			root=s.top();   s.pop();
+		}
+	}
+}
+
 int main(){
 	/* Constructed binary tree is
             10
