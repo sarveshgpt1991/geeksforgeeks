@@ -41,6 +41,37 @@ void connect(node *root){
 	}
 }
 
+//Recursive
+node *getNext(node *root){
+	if(root == NULL)
+		return NULL;
+	node *ptr = root;
+	while(ptr){
+		if(ptr->left)
+			return ptr->left;
+		else if(ptr->right)
+			return ptr->right;
+		ptr = ptr->nextRight;
+	}
+	return NULL;
+}
+
+void connect1(node *root){
+	if(root == NULL)
+		return;
+	if(root->left){
+		if(root->right)
+			root->left->nextRight = root->right;
+		else
+			root->left->nextRight = getNext(root->nextRight);
+	}
+	if(root->right){
+		root->right->nextRight = getNext(root->nextRight);
+	}
+	funct(root->left);
+	funct(root->right);
+}
+
 int main(){
 	node *root = newNode(10);
   root->left        = newNode(8);
