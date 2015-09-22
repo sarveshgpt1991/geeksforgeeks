@@ -33,6 +33,53 @@ node *BTToDLL(node *root){
 	fixNextPtr(root);
 }
 
+// Iterative and morris
+node *morris(node *root){
+	if(root == NULL)
+		return root;
+	node *head = NULL;
+	while(root){
+		if(root->left == NULL){
+			if(head == NULL){
+				head = root;
+			}
+			root = root->right;
+		}
+		else {
+			node *ptr = root->left;
+			while(ptr->right && ptr->right != root){
+				ptr = ptr->right;
+			}
+			if(ptr->right == NULL){
+				ptr->right = root;
+				root = root->left;
+			}
+   			else {
+				root = root->right;
+			}
+		}
+	}
+	return head;
+}
+
+void setLeftPtr(node *head){
+	node *prev = NULL;
+	while(head){
+		head->left = prev;
+		prev = head;
+		head = head->right;
+	}
+}
+
+node *BTToDLL1(node *root){
+	if(root == NULL)
+		return NULL;
+	node *head = morris(root);
+	setLeftPtr(head);
+	return head;
+}
+// End
+
 void printList(node *head){
 	while(head){
 		cout<<head->data<<" ";
