@@ -26,6 +26,24 @@ void printKDistantfromLeaf(node *root, int k){
 	printKDistant(root, path, visited, k, 1);
 }
 
+// Backtrack
+void funct(node *root, int k, vector<int> &v){
+	if(root == NULL)
+		return;
+	v.push_back(root->data);
+	if(!root->left && !root->right){
+		int idx = v.size()-k-1;
+		if(v.size() > k && v[idx] != INT_MIN){
+			cout<<v[idx]<<" ";
+			v[idx] = INT_MIN;
+		}
+		//No return due to pop_back()
+	}
+	funct(root->left, k, v);
+	funct(root->right, k, v);
+	v.pop_back();
+}
+
 int main(){
 	node * root = newNode(1);
     root->left = newNode(2);
