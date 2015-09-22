@@ -47,6 +47,32 @@ void convertList2Binary(LNode *head, node **root, queue<node*> &q){
 	convertList2Binary(head->next, root, q);
 }
 
+// Linked list to root without linked list struct
+void convertList2Binary1(node *root){
+	if(root == NULL)
+		return;
+	queue<node*> q;
+	node *tmp = root->right;
+	root->right = root->left = NULL;
+	q.push(root);
+	root = tmp;
+	while(root){
+		node *ptr = q.front();  q.pop();
+		ptr->left = root;
+		tmp = root->right;
+		root->right = root->left = NULL;
+		q.push(root);
+		root = tmp;
+		if(root){
+			ptr->right = root;
+			tmp = root->right;
+			root->right = root->left = NULL;
+			q.push(root);
+			root = tmp;
+		}
+	}
+}
+
 int main(){
 	LNode* head = NULL;
     push(&head, 36);  /* Last node of Linked List */
