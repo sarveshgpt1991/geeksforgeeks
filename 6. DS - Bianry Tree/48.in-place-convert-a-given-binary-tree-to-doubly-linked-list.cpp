@@ -38,6 +38,24 @@ node *bintree2list(node *root){
 		return root;
 }
 
+// small
+node *bintree2list1(node *root){
+	if(root == NULL)
+		return NULL;
+	node *ptr = root->left;
+	node *head = root;
+	if(ptr){
+		while(ptr->right){
+			ptr = ptr->right;
+		}
+		head = funct(root->left);
+		ptr->right = root;
+		root->left = root;
+	}
+	root->right = funct(root->right);
+	return head;
+}
+
 int main(){
 	node *root        = newNode(10);
     root->left        = newNode(12);
