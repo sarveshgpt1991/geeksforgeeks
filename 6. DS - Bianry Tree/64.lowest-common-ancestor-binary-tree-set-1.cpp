@@ -30,6 +30,42 @@ int findLCA(node *root, int k1, int k2){
 	return path1[i-1];
 }
 
+//O(n) O(1)
+bool find(node *root, int n){
+	if(root == NULL)
+		return false;
+	if(root->data == n)
+		return true;
+	if(find(root->left, n) || find(root->right, n)){
+		return 1;
+	}
+	return 0;
+}
+
+node *LCA(node *root, int n1, int n2){
+	if(root == NULL)
+		return NULL;
+	if(root->data == n1 || root->data == n2){
+		return root;
+	}
+	node *l = LCA(root->left, n1, n2);
+	node *r = LCA(root->right, n1, n2);
+	if(l && r){
+		return root;
+	}
+	return ((l != NULL) ? l : r);
+}
+
+node *findLCA(node *root, int n1, int n2){
+	node *res = LCA(root, n1, n2);
+	if(res->data != n1 && res->data != n2)
+		return res;
+	if(res->data == n1){
+		return (find(res, n2) ? res : NULL);
+	}
+	return (find(res, n1) ? res : NULL);
+}
+
 int main(){
 	node * root = newNode(1);
     root->left = newNode(2);
