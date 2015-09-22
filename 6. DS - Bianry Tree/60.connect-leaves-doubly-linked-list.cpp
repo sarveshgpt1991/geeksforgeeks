@@ -4,31 +4,16 @@
 #include <iostream>
 #include "bt.h"
 
-node *rightMost(node *head){
-	while(head && head->right)
-		head = head->right;
-	return head;
-}
-
 node *extractLeafList(node *root, node **head){
 	if(root == NULL)
 		return NULL;
 	if(!root->left && !root->right){
-		node *tmp = rightMost(*head);
-		if(tmp){
-			tmp->right = root;
-			root->left = tmp;
-		}
-		else{
-			*head = root;
-			(*head)->left = NULL;
-			(*head)->right = NULL;
-		}
-		root = NULL;
+		root->right = (*head);
+		*head = root;
 		return NULL;
 	}
-	node *l = extractLeafList(root->left, head);
-	node *r = extractLeafList(root->right, head);
+	node *r = funct(root->right, head);
+	node *l = funct(root->left, head);
 	root->left = l;
 	root->right = r;
 	return root;
