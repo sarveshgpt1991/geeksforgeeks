@@ -4,6 +4,7 @@
 #include <queue>
 #include "bt.h"
 
+// Method 1
 void printLeftWall(node *root){
 	if(root == NULL)
 		return;
@@ -32,6 +33,78 @@ void printBoundary(node *root){
 	printLeftWall(root);
 	printLeafNode(root, true, true);
 	printRightWall(root);
+}
+
+//Method 2 -> more correct for below kinda tree
+/*
+                1
+               /  \
+              2    3
+               \   /\
+               6  5  4
+        	    \   \
+                10   11
+*/
+void fillLeftV(node *root, node **leftV, int level){
+	if(root == NULL)
+		return;
+	if(leftV[level] == NULL){
+		leftV[level] = root;
+	}
+	fillLeftV(root->left, leftV, level+1);
+	fillLeftV(root->right, leftV, level+1);
+}
+
+void fillRightV(node *root, node **rightV, int level){
+	if(root == NULL)
+		return;
+	if(rightV[level] == NULL){
+		rightV[level] = root;
+	}
+	fillRightV(root->right, rightV, level+1);
+	fillRightV(root->left, rightV, level+1);
+}
+
+void printLeaf(node *root, node **leftV, node **rightV, int level){
+	if(root == NULL)
+		return;
+	if(!root->left && !root->right){
+		if(leftV[level] != root && rightV[level] != root){
+			cout<<root->data<<" ";
+		}
+	}
+	else {
+		printLeaf(root->left, leftV, rightV, level+1);
+		printLeaf(root->right, leftV, rightV, level+1);
+	}
+}
+
+void printBoundary1(node *root){
+	int h = height(root);
+	node* leftV[h];
+	node* rightV[h];
+	for(int i=0; i<h; i++){
+		leftV[i] = rightV[i] = NULL;
+	}
+	fillLeftV(root, leftV, 0);
+	fillRightV(root, rightV, 0);
+
+	// Print left
+	for(int i=0; i<h; i++){
+		if(leftV[i]){
+			cout<<leftV[i]->data<<" ";
+		}
+	}
+	
+	//Print Leaf
+	printLeaf(root, leftV, rightV, 0);
+	
+	//Print Right
+	for(int i=h-1; i>=0; i--){
+		if(rightV[i] && leftV[i] != rightV[i]){
+			cout<<rightV[i]->data<<" ";
+		}
+	}
 }
 
 int main(){
