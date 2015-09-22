@@ -3,27 +3,29 @@
 #include <iostream>
 #include "bt.h"
 
-void isBalancedRec(node *root, int *Min, int *Max, int level){
+bool isBalUtil(node *root, int &min, int &max){
 	if(root == NULL)
-		return;
-	level++;
-	if(root->left && root->right){
-		(*Min)++;
-		(*Max)++;
-	}
-	else if(root->left || root->right){
-		(*Max)++;
-	}
-	isBalancedRec(root->left, Min, Max, level);
-	isBalancedRec(root->right, Min, Max, level);
+		return true;
+	int lmin=0, lmax=0, rmin=0, rmax=0;
+	if(isBalUtil(root->left, lmin, lmax) == false)
+		return false;
+	if(isBalUtil(root->right, rmin, rmax) == false)
+		return false;
+	min = (lmin < rmin ? lmin:rmin);
+	max = (lmax > rmax ? lmax:rmax);
+	if(max <= 2*min)
+		return true;
+	return false;
 }
 
 bool isBalanced(node *root){
-	int Min = 0;
-	int Max = 0;
-	isBalancedRec(root, &Min, &Max, 0);
-	cout<<Min<<" "<<Max<<'\n';
-	return (2*Min >= Max);
+	int min=0;
+	int max=0;
+	isBalUtil(root, min, max);
+	if(max <= 2*min){
+		return true;
+	}
+	return false;
 }
 
 int main(){
