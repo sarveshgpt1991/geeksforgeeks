@@ -3,48 +3,36 @@
 #include <iostream>
 #include "bst.h"
 
-node *deleteNode(node *root, int data){
-	 if(root == NULL)
-	     return NULL;
-	 if(root->data == data){
-	     node *tmp = root->left;
-	     node *pre = root;
-		 while(tmp && tmp->right){
-             pre = tmp;
-		     tmp = tmp->right;		
-		 }
-		 if(tmp){
-		     root->data = tmp->data;
-		     if(pre == root)
-		         pre->left = NULL;
-   			 else
-   			 	 pre->right = NULL;
-		     delete(tmp);
-		     return root;
-		 }
-		 tmp = root->right;
-		 while(tmp && tmp->left){
-   		     pre = tmp;
-		     tmp = tmp->left;		
-		 }
-		 if(tmp){
-		     root->data = tmp->data;
-		     if(pre == root)
-		         pre->right = NULL;
-   			 else
-   			 	 pre->left = NULL;
-		     delete(tmp);
-		     return root;
-		 }
-		 delete(root);
-		 return NULL;
-     }
-     else if(root->data > data){
-	 	  root->left = deleteNode(root->left, data);
-     }
-     else
-     	 root->right = deleteNode(root->right, data);
- 	 return root;
+node *deleteNode(node *root, int key){
+	if(root == NULL)
+		return NULL;
+	if(key < root->data){
+		root->left = deleteNode(root->left, key);
+	}
+	else if(key > root->data){
+		root->right = deleteNode(root->right, key);
+	}
+	else {
+		if(root->left == NULL){
+			node *res = root->right;
+			delete(root);
+			return res;
+		}
+		else if(root->right == NULL){
+			node *res = root->left;
+			delete(root);
+			return res;
+		}
+		else {
+			node *ptr = root->right;
+			while(ptr->left){
+				ptr = ptr->left;
+			}
+			root->data = ptr->data;
+			root->right = deleteNode(root->right, ptr->data);
+		}
+	}
+	return root;
 }
 
 int main(){
