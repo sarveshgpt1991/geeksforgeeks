@@ -54,31 +54,72 @@ void merge(node *root1, node *root2){
 			}
 			cout<<"\n"<<s1.size()<<" "<<s2.size()<<"\n";
 		}
-		/*
-		while(!s1.empty() && s2.empty() && !tmp1){
-			tmp1 = s1.top(); s1.pop();
-			cout<<tmp1->data<<" ";
-			if(tmp1->right){
-				tmp1 = tmp1->right;
-				break;
-			}
-			else{
-				tmp1 = NULL;
-			}
-		}
-		while(!s2.empty() && s1.empty() && !tmp2){
-			tmp2 = s2.top(); s2.pop();
-			cout<<tmp2->data<<" ";
-			if(tmp2->right){
-				tmp2 = tmp1->right;
-				break;
-			}
-			else{
-				tmp2 = NULL;
-			}
-		}*/
 	}
 }
+
+// Using morris Traversal
+void bar(node *root1, node *root2){
+    int a = INT_MAX;
+    int b = INT_MAX;
+    while(root1 || root2){
+        while(root1 && a == INT_MAX){
+            if(root1->left == NULL){
+                a = root1->data;//cout<<root1->data<<" ";
+                root1 = root1->right;
+            }
+            else{
+                node *ptr1 = root1->left;
+                while(ptr1->right && ptr1->right != root1)
+                    ptr1 = ptr1->right;
+                if(ptr1->right == NULL){
+                    ptr1->right = root1;
+                    root1 = root1->left;
+                }
+                else {
+                    ptr1->right = NULL;
+                    a = root1->data;//cout<<root1->data<<" ";
+                    root1 = root1->right;
+                }
+            }
+        }
+       //Morris for root2
+        while(root2 && b == INT_MAX){
+            if(root2->left == NULL){
+                b = root2->data;
+                root2 = root2->right;
+            }
+            else {
+                node *ptr2 = root2->left;
+                while(ptr2->right && ptr2->right != root2)
+                    ptr2 = ptr2->right;
+                if(ptr2->right == NULL){
+                    ptr2->right = root2;
+                    root2 = root2->left;
+                }
+                else {
+                    ptr2->right = NULL;
+                    b = root2->data;//cout<<root1->data<<" ";
+                    root2 = root2->right;
+                }
+            }
+
+        }
+        //Print min
+        if(a < b){
+            cout<<a<<" ";
+            a = INT_MAX;
+        }
+        else {
+            cout<<b<<" ";
+            b = INT_MAX;
+        }
+    }
+    if(a != INT_MAX)
+        cout<<a;
+    if(b != INT_MAX)
+        cout<<b;
+}
+
 
 int main(){
 	node  *root1 = NULL, *root2 = NULL;
