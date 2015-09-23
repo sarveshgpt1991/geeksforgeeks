@@ -32,6 +32,54 @@ int findClosest(node *root, int k){
 	return findClosestUtil(root, ance, k, 0);
 }
 
+// For all nodes
+int find(node* root, int level, map<node*, int> &m){
+	if(root == NULL)
+		return INT_MAX;
+	if(!root->left && !root->right){
+		return 0;
+	}
+	int l = find(root->left, level+1, m);
+	if(l != INT_MAX)
+		l++;
+	int r = find(root->right, level+1, m);
+	if(r != INT_MAX)
+		r++;
+	if(m.count(root)){
+		m[root] = min(m[root], min(l, r));
+	}
+	else{
+		m[root] = min(l, r);
+	}
+	return m[root];
+}
+	
+void reset(node *root, map<node*, int> &m){
+	if(root == NULL)
+		return;
+	if(root->left){
+		if(m[root->left] > m[root]+1)
+			m[root->left] = m[root]+1;
+	}
+	if(root->right){
+		if(m[root->right] > m[root]+1)
+			m[root->right] = m[root]+1;
+	}
+	reset(root->left, m);
+	reset(root->right, m);
+}
+
+void findClosest(node *root){
+	map<node*, int> m;
+	find(root, 0, m);
+	reset(root, m);
+	map<node*, int>::iterator iter = m.begin();
+	for(;iter != m.end(); iter++){
+		cout<<iter->first->data<<" "<<iter->second<<'\n';
+	}
+}
+// End here
+
 int main(){
 	node *root        = newNode(1);
     root->left               = newNode(2);
