@@ -34,6 +34,21 @@ int lisRec(int *arr, int *res, int n){
     return res[n-1];
 }
 
+//To calculate length of LIS in O(nlogn)
+int lis1(int *arr, int n){
+	vector<int> s;
+	for(int i=0; i<n; i++){
+		if(s.empty() || s.back() < arr[i]){
+			s.push_back(arr[i]);
+		}
+		else {
+			int idx = upper_bound(s.begin(), s.end(), arr[i]) - s.begin();
+			s[idx] = arr[i];
+		}
+	}
+	return s.size();
+}
+
 int main() {
     int arr[] = { 10, 22, 10, 33, 21, 50, 55, 6 };
     int n = sizeof(arr)/sizeof(arr[0]);
