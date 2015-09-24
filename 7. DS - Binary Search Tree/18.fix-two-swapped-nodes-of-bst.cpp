@@ -40,6 +40,62 @@ void correctBST(node *root){
 	}
 }
 
+// itertive
+void correctBST1(node *root){
+    if(root == NULL){
+        return;
+    }
+    node *prev=NULL;
+    node *one=NULL, *two=NULL;
+    node *onepost=NULL;
+    while(root){
+        if(root->left == NULL){
+            if(prev && root->data < prev->data){
+                if(one == NULL){
+                    one = prev;
+                    onepost = root;
+                }
+                else
+                    two = root;
+            }
+            prev = root;                //cout<<root->data<<" ";
+            root = root->right;
+        }
+        else{
+            node *ptr = root->left;
+            while(ptr->right && ptr->right != root)
+                ptr = ptr->right;
+            if(ptr->right == NULL){
+                ptr->right = root;
+                root = root->left;
+            }
+            else {
+                ptr->right = NULL;
+                if(prev && root->data < prev->data){
+                    if(one == NULL){
+                        one = prev;
+                        onepost = root;
+                    }
+                    else
+                        two = root;
+                }
+                prev = root;    //cout<<root->data<<" ";
+                root = root->right;
+            }
+        }
+    }
+    if(one && two) {
+        int tmp = one->data;
+        one->data = two->data;
+        two->data = tmp;
+    }
+    else if(one != NULL){
+        int tmp = one->data;
+        one->data = onepost->data;
+        onepost->data = tmp;
+    }
+}
+
 int main(){
 	/*   6
         /  \
