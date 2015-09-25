@@ -10,6 +10,20 @@ int binomialCoeff(int n, int k, int **C){
     return C[k][n];
 }
 
+int binomialCoeff1(int n, int k){
+	int cache[k+1];
+	int i, j, res;
+	C[0]=1;
+	for(int i=1; i<=n; i++){
+		for(int j=min(i, k); j>0; j--){
+			C[j] = C[j] + C[j-1];
+		}
+	}
+	res = C[k];
+	free(C);
+	return res;
+}
+
 int main() {
     int n = 5, k = 2;
     int **C = new int*[k+1];
