@@ -8,7 +8,10 @@ int finalCount(int n, int sum){
 	int cache[n+1][sum+1];
 	for(int i=0; i<=sum; i++){
 		cache[0][i] = 0;
-		cache[1][i] = 1;
+		if(i<10)
+			cache[1][i] = 1;
+		else
+			cache[1][i] = 0;
 	}
 	for(int i=2; i<=n; i++){
 		for(int j=0; j<=sum; j++){
