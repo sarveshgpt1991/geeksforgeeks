@@ -7,14 +7,14 @@ bool isSubsetSum(int *set, int n, int sum){
 	bool cache[sum+1][n+1];
 	for(int i=0; i<=n; i++)
 		cache[0][i] = 1;
-	for(int i=0; i<=sum; i++)
+	for(int i=1; i<=sum; i++)
 		cache[i][0] = 0;
 	for(int i=1; i<=sum; i++){
 		for(int j=1; j<=n; j++){
 			if(set[j-1] > i)
 				cache[i][j] = cache[i][j-1];
 			else
-				cache[i][j] = cache[i][j] || cache[i-set[j-1]][j-1];
+				cache[i][j] = cache[i][j-1] || cache[i-set[j-1]][j-1];
 		}
 	}
 	return cache[sum][n];
